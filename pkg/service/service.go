@@ -1,8 +1,12 @@
 package service
 
-import "github.com/alexvlasov182/crud-go/pkg/repository"
+import (
+	crudgo "github.com/alexvlasov182/crud-go"
+	"github.com/alexvlasov182/crud-go/pkg/repository"
+)
 
 type Authorization interface {
+	CreateUser(user crudgo.User) (int, error)
 }
 
 type TodoList interface {
@@ -18,5 +22,7 @@ type Service struct {
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorization: NewAuthService(repos.Authorization),
+	}
 }
